@@ -4,28 +4,12 @@ package classroom;
 option go_package = "./api";
 
 
-import "annotations.proto";
 
 service ClassroomService {
- rpc CreateStudent(CreateStudentRequest) returns (CreateStudentResponse) {
-    option (google.api.http) = {
-      post: "/v1/student"
-      body: "*"
-    };
- }
- rpc UpdateStudent(UpdateStudentRequest) returns (UpdateStudentResponse) {
-    option (google.api.http) = {
-      put: "/v1/student/{id}"
-      body: "*"
-    };
- }
- rpc DeleteStudent(DeleteStudentRequest) returns (DeleteStudentResponse) {
-    option (google.api.http) = {
-      delete: "/v1/student/{id}"
-    };
- }
+  rpc CreateStudent(CreateStudentRequest) returns (CreateStudentResponse);
+  rpc UpdateStudent(UpdateStudentRequest) returns (UpdateStudentResponse);
+  rpc DeleteStudent(DeleteStudentRequest) returns (DeleteStudentResponse);
 }
-
 
 message Student {
   string id = 1;

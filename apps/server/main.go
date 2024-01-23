@@ -3,9 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
+	"net"
 	"sync"
 
-	classroom "github.com/italobbarros/go-testing-apis/api"
+	classroom "github.com/italobbarros/go-testing-apis/pb/api"
+	"google.golang.org/grpc"
 )
 
 type classroomServer struct {
@@ -59,4 +62,23 @@ func (s *classroomServer) DeleteStudent(ctx context.Context, req *classroom.Dele
 	delete(s.students, req.Id)
 
 	return &classroom.DeleteStudentResponse{Id: req.Id}, nil
+}
+
+func main() {
+	port := ":50051"
+	lis, err := net.Listen("tcp", port)
+	if err != nil {
+		log.Fatalf("Failed to listen on port %s: %v", port, err)
+	}
+
+	server := grpc.NewServer()
+	classroomServerVar := &classroomServer{
+		students: make(map[string]*classroom.Student),
+	}
+	classroom.RegisterClassroomServiceServer(server, classroomServerVar)
+
+	log.Printf("Server listening on port %s", port)
+	if err := server.Serve(lis); err != nil {
+		log.Fatalf("Failed to serve: %v", err)
+	}
 }

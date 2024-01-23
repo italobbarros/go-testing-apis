@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	classroom "github.com/italobbarros/go-testing-apis/api"
+	classroom "github.com/italobbarros/go-testing-apis/pb/api"
 
 	"google.golang.org/grpc"
 )
